@@ -1,0 +1,68 @@
+<form [formGroup]="applyForm" (submit)="submitForm()">
+    <!-- <div *ngIf="url.invalid" class="px-5 mb-1" style="color: red">Url must be provided</div> -->
+    <div *ngIf="url.invalid && (url.dirty || url.touched)" class="alert alert-danger">
+        <div *ngIf="url.errors?.['required']">
+            Url is required
+        </div>
+
+        <div *ngIf="url.errors?.['pattern']">
+            Please provide a valid Url
+        </div>
+    </div>
+
+    <div class="input-group px-5 mb-3">
+        <input type="text" id="url" name="url" class="form-control" formControlName="url"
+            placeholder="Url (Ex: https://example.com)" aria-label="Url (Ex: https://example.com)"
+            aria-describedby="button-addon2" required>
+        <button class="btn btn-outline-primary" [ngClass]="url.invalid && (url.dirty || url.touched) ? 'disabled' : ''" type="submit" id="generateUrl-Btn">Generate</button>
+    </div>
+
+    <div class="px-5 mb-3">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"
+                formControlName="singleAccess">
+            <label class="form-check-label" for="flexCheckDefault">
+                Single access
+            </label>
+        </div>
+    </div>
+</form>
+
+<div class="d-flex justify-content-center px-5 py-3">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scole="col">Full Url</th>
+                <th scole="col">Shorted Url</th>
+                <th scole="col">Access</th>
+                <th scole="col">Single Access</th>
+            </tr>
+        </thead>
+        <tbody class="table-group-divider">
+            <tr *ngFor="let link of linksList[currentPage - 1]">
+                <th [width]="160" scope="row">{{ link.id }}</th>
+                <th><a [href]="link.full_url">{{ link.full_url }}</a></th>
+                <th><a [href]="link.short_url">{{ link.short_url }}</a></th>
+                <th>{{ link.access }}</th>
+                <th>{{ link.single_access ? 'Yes' : 'No' }}</th>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="d-flex justify-content-center px-5 py-3">
+    <nav aria-label="...">
+        <ul class="pagination">
+            <li class="page-item" [ngClass]="previousPage === undefined ? 'disabled' : ''">
+                <a [routerLink]="['/']" [queryParams]="{ 'page': previousPage }" class="page-link">Previous</a>
+            </li>
+            <li *ngFor="let p of pages" class="page-item" [ngClass]="p === currentPage ? 'active' : ''">
+                <a class="page-link" [routerLink]="['/']" [queryParams]="{ 'page': p }">{{ p }}</a>
+            </li>
+            <li class="page-item" [ngClass]="{'disabled': nextPage === undefined}">
+                <a [routerLink]="['/']" [queryParams]="{ 'page': nextPage }" class="page-link">Next</a>
+            </li>
+        </ul>
+    </nav>
+</div>
