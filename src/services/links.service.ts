@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class LinksService {
-  private apiUrl: string = 'https://url-shorter-api.vercel.app';
+  private apiUrl: string = '/api';
 
   getNOfPages(): Observable<Number[]> {
     return this.http.get<Number[]>(this.apiUrl + '/pages');
