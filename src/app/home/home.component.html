@@ -14,7 +14,8 @@
         <input type="text" id="url" name="url" class="form-control" formControlName="url"
             placeholder="Url (Ex: https://example.com)" aria-label="Url (Ex: https://example.com)"
             aria-describedby="button-addon2" required>
-        <button class="btn btn-outline-primary" [ngClass]="url.invalid && (url.dirty || url.touched) ? 'disabled' : ''" type="submit" id="generateUrl-Btn">Generate</button>
+        <button class="btn btn-outline-primary" [ngClass]="url.invalid && (url.dirty || url.touched) ? 'disabled' : ''"
+            type="submit" id="generateUrl-Btn">Generate</button>
     </div>
 
     <div class="px-5 mb-3">
@@ -43,7 +44,7 @@
             <tr *ngFor="let link of linksList[currentPage - 1]">
                 <th [width]="160" scope="row">{{ link.id }}</th>
                 <th><a [href]="link.full_url">{{ link.full_url }}</a></th>
-                <th><a [href]="link.short_url">{{ link.short_url }}</a></th>
+                <th><a [href]="shortUrl + '/' + link.short_url">{{ link.short_url }}</a></th>
                 <th>{{ link.access }}</th>
                 <th>{{ link.single_access ? 'Yes' : 'No' }}</th>
             </tr>
@@ -54,14 +55,8 @@
 <div class="d-flex justify-content-center px-5 py-3">
     <nav aria-label="...">
         <ul class="pagination">
-            <li class="page-item" [ngClass]="previousPage === undefined ? 'disabled' : ''">
-                <a [routerLink]="['/']" [queryParams]="{ 'page': previousPage }" class="page-link">Previous</a>
-            </li>
             <li *ngFor="let p of pages" class="page-item" [ngClass]="p === currentPage ? 'active' : ''">
                 <a class="page-link" [routerLink]="['/']" [queryParams]="{ 'page': p }">{{ p }}</a>
-            </li>
-            <li class="page-item" [ngClass]="{'disabled': nextPage === undefined}">
-                <a [routerLink]="['/']" [queryParams]="{ 'page': nextPage }" class="page-link">Next</a>
             </li>
         </ul>
     </nav>

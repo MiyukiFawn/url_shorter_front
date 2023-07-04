@@ -10,6 +10,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-home',
@@ -21,7 +22,11 @@ import {
 export class HomeComponent {
   linksService: LinksService = inject(LinksService);
 
-  constructor(private route: ActivatedRoute, private router: Router) {}
+  constructor(private route: ActivatedRoute, private router: Router) {
+    this.linksService.getNOfPages().subscribe((pages) => {
+      this.pages = pages;
+    });
+  }
 
   ngOnInit() {
     this.route.queryParamMap
@@ -34,21 +39,13 @@ export class HomeComponent {
           param && !Number.isNaN(Number(param)) ? Number(param) : 1;
         const pageIndex = this.pages.findIndex((p) => p === this.currentPage);
 
-        if (pageIndex !== -1) {
-          if (pageIndex > 0) this.previousPage = this.currentPage - 1;
-          else this.previousPage = undefined;
-
-          if (pageIndex < this.pages.length - 1)
-            this.nextPage = this.currentPage + 1;
-          else this.nextPage = undefined;
+        if (this.linksList[this.currentPage - 1] === undefined) {
+          this.linksService.getAllLinks(this.currentPage).subscribe((list) => {
+            const links: Link[] = list;
+            this.populateTable(links, this.currentPage);
+          });
         }
       });
-
-    this.linksService.getAllLinks(this.currentPage).subscribe((list) => {
-      const links: Link[] = list;
-      this.populateTable(links, this.currentPage);
-    });
-    this.linksService.getNOfPages().subscribe((pages) => (this.pages = pages));
   }
 
   applyForm: FormGroup = new FormGroup({
@@ -65,9 +62,10 @@ export class HomeComponent {
     return this.applyForm.get('url');
   }
 
+  get shortUrl(): string {
+    return environment.baseUrl;
+  }
   currentPage: number = 1;
-  previousPage: number | undefined;
-  nextPage: number | undefined;
   pages: Number[] = [];
   linksList: Array<Link[]> = [];
 
@@ -86,7 +84,7 @@ export class HomeComponent {
     };
 
     this.linksService.createLink(link).subscribe((data) => {
-      console.log(data);
+      window.location.reload();
     });
   }
 }
