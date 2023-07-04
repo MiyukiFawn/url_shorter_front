@@ -4,6 +4,7 @@ import { CreateLink, Link } from 'src/Interfaces/link';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { distinctUntilChanged, map } from 'rxjs';
 import { LinksService } from 'src/services/links.service';
+import { Clipboard } from '@angular/cdk/clipboard';
 import {
   FormControl,
   FormGroup,
@@ -22,7 +23,11 @@ import { environment } from 'src/environments/environment';
 export class HomeComponent {
   linksService: LinksService = inject(LinksService);
 
-  constructor(private route: ActivatedRoute, private router: Router) {
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private clipboard: Clipboard
+  ) {
     this.linksService.getNOfPages().subscribe((pages) => {
       this.pages = pages;
     });
@@ -79,6 +84,11 @@ export class HomeComponent {
     };
 
     this.linksService.createLink(link).subscribe((data) => {
+      const url: string = environment.baseUrl + '/' + data;
+      this.clipboard.copy(url);
+
+      alert("Shorted link copied to clipboard");
+      
       window.location.reload();
     });
   }
