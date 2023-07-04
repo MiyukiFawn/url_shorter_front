@@ -49,12 +49,7 @@ export class HomeComponent {
   }
 
   applyForm: FormGroup = new FormGroup({
-    url: new FormControl('', [
-      Validators.required,
-      Validators.pattern(
-        '(https://www.|http://www.|https://|http://)?[a-zA-Z0-9]{2,}.[a-zA-Z0-9]{2,}.[a-zA-Z0-9]{2,}(.[a-zA-Z0-9]{2,})?'
-      ),
-    ]),
+    url: new FormControl('', [Validators.required]),
     singleAccess: new FormControl(false),
   });
 
