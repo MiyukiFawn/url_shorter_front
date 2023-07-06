@@ -34,17 +34,29 @@
         <thead>
             <tr>
                 <th scope="col">#</th>
-                <th scole="col">Full Url</th>
                 <th scole="col">Shorted Url</th>
-                <th scole="col">Access</th>
+                <th scole="col">Full Url</th>
+                <th scole="col">Accesses</th>
                 <th scole="col">Single Access</th>
             </tr>
         </thead>
         <tbody class="table-group-divider">
             <tr *ngFor="let link of linksList[currentPage - 1]">
                 <th [width]="160" scope="row">{{ link.id }}</th>
-                <th><a [href]="link.full_url">{{ link.full_url }}</a></th>
-                <th><a [href]="shortUrl + '/' + link.short_url">{{ link.short_url }}</a></th>
+                <th>
+                    <a [href]="shortUrl + '/' + link.short_url">{{ link.short_url }}</a>
+                </th>
+
+                <th>
+                    <a [href]="link.single_access ? '404' : link.full_url">
+                        {{ link.single_access ? '(EXPIRED)' : link.full_url }}
+                    </a>
+                </th>
+
+                <ng-template #censoredLink>
+                    <a [href]="404">(EXPIRED)</a>
+                </ng-template>
+
                 <th>{{ link.access }}</th>
                 <th>{{ link.single_access ? 'Yes' : 'No' }}</th>
             </tr>
