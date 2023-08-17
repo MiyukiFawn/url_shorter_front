@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { ApiDocsComponent } from './api-docs/api-docs.component';
 
 export const routes: Routes = [
   {
@@ -8,6 +9,6 @@ export const routes: Routes = [
     component: HomeComponent,
     title: 'Frost Shorter',
   },
-  { path: '404', component: NotFoundComponent },
-  { path: '**', redirectTo: '/404' },
+  { path: 'docs', component: ApiDocsComponent, title: 'API Documentation' },
+  { path: '**', component: NotFoundComponent },
 ];

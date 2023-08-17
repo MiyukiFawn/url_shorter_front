@@ -1,3 +1,12 @@
+<div class="container mb-5">
+    <div class="row d-flex align-items-center justify-content-center py-3">
+        <img [src]="'assets/Logo.png'" class="col-1 img-fluid" alt="Image" />
+        <div class="col-3">
+            <h1>Frost Shorter</h1>
+        </div>
+    </div>
+</div>
+
 <form [formGroup]="applyForm" (submit)="submitForm()">
     <!-- <div *ngIf="url.invalid" class="px-5 mb-1" style="color: red">Url must be provided</div> -->
     <div *ngIf="url.invalid && (url.dirty || url.touched)" class="alert alert-danger">
