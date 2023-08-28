@@ -84,7 +84,7 @@ export class HomeComponent {
     };
 
     this.linksService.createLink(link).subscribe((data) => {
-      const url: string = environment.baseUrl + '/' + data;
+      const url: string = 'https://frostsh.vercel.app/' + data;
       this.clipboard.copy(url);
 
       alert("Shorted link copied to clipboard");
